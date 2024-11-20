@@ -3,11 +3,11 @@ import 'package:consulta_cnpj/address.dart';
 class Empresa {
   String alias;
   String founded;
-  Address
+  String
       address; // endereço vai retornar varios campos, como a rua, numero, bairro...
   String zip;
-  List<String> phones;
-  List<String> emails;
+  String phones;
+  String emails;
   String company; // mesmo caso de endereço
   String sideActivities; // mesmo caso de endereço
 
@@ -26,8 +26,7 @@ class Empresa {
     return {
       'alias': alias,
       'founded': founded,
-      'address': address
-          .paraJson(), // chamando dentro de paraJson de empresa o paraJson de Adress para converter o objeto address para json (pois é instanciado por outra classe)
+      'address': address, // chamando dentro de paraJson de empresa o paraJson de Adress para converter o objeto address para json (pois é instanciado por outra classe)
       'zip': zip,
       'phones': phones,
       'emails': emails,
@@ -40,11 +39,12 @@ class Empresa {
     return Empresa(
       alias: json['alias'],
       founded: json['founded'],
-      address: Address.deJson(
-          json['address']), // transformando o mapa address em um objeto Address
+      address: [
+        'adress'
+      ]['street'], 
       zip: json['zip'],
-      phones: List<String>.from(json['phones']), // Converte para List<String>
-      emails: List<String>.from(json['emails']),
+      phones: json['phones'], // Converte para List<String>
+      emails: json['emails'],
       company: json['company'],
       sideActivities: json['sideActivities'],
     );

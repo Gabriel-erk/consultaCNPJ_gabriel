@@ -1,6 +1,7 @@
 import 'package:consulta_cnpj/empresa.dart';
 import 'package:consulta_cnpj/empresa_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart'; // pacote de máscara de telefone, cpf, cnpj...
 
 void main() {
   runApp(MyApp());
@@ -27,6 +28,10 @@ class EmpresaScreen extends StatefulWidget {
 }
 
 class _EmpresaScreenState extends State<EmpresaScreen> {
+  // Controlador com a máscara de CNPJ
+  // final MaskedTextController _cnpjMaskController =
+  //     MaskedTextController(mask: '00.000.000/0000-00');
+
   final TextEditingController _cnpjController = TextEditingController();
   Empresa? _empresa;
   String _errorMessage = '';
@@ -41,12 +46,15 @@ class _EmpresaScreenState extends State<EmpresaScreen> {
         throw Exception("Por favor informe um CNPJ válido");
       }
       Empresa empresa = await controller.buscarEmpresa(cnpj);
+      // para atualizar resultado em tempo real
       setState(() {
         _empresa = empresa;
       });
     } catch (e) {
-      _errorMessage = e.toString();
-      _empresa = null;
+      setState(() {
+        _errorMessage = e.toString();
+        _empresa = null;
+      });
     }
   }
 
@@ -62,7 +70,8 @@ class _EmpresaScreenState extends State<EmpresaScreen> {
         child: Column(
           children: [
             TextField(
-              controller: _cnpjController,
+              controller:
+                  _cnpjController, // controlador que irá aplicar a máscara de cnpj no meu campo
               decoration: const InputDecoration(
                 labelText: "Informe o CNPJ",
                 // coloca uma borda em volta do campo de textfield
